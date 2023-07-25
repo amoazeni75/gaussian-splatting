@@ -1,6 +1,8 @@
 
 CUDA_VISIBLE_DEVICES=1
 
+cd ..
+
 # lego: A5
 python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/lego/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/lego/random_sphere_points3d.txt --model_path output/lego --eval --white_background --width_load 800 --height_load 800
 

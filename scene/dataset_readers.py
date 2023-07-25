@@ -126,7 +126,7 @@ def readColmapCameras(
         image = Image.open(image_path)
         if load_width > 0 and load_height > 0:
             image = image.resize((load_width, load_height), Image.LANCZOS)
-            print(f"Resizing image {image_path} to {load_width}x{load_height}")
+            # print(f"Resizing image {image_path} to {load_width}x{load_height}")
             FovY = FovY * load_height / original_height
             FovX = FovX * load_width / original_width
             original_height = load_height
@@ -291,7 +291,7 @@ def readCamerasFromTransforms(
                 original_height = image.size[1]
                 original_width = image.size[0]
                 image = image.resize((load_width, load_height), Image.LANCZOS)
-                print(f"Resizing image {image_path} to {load_width}x{load_height}")
+                # print(f"Resizing image {image_path} to {load_width}x{load_height}")
                 FovY = FovY * load_height / original_height
                 FovX = FovX * load_width / original_width
 
