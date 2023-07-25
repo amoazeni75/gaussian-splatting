@@ -337,14 +337,14 @@ if __name__ == "__main__":
     network_gui.init(args.ip, args.port)
     torch.autograd.set_detect_anomaly(args.detect_anomaly)
     training(
-        lp.extract(args),
-        op.extract(args),
-        pp.extract(args),
-        args.test_iterations,
-        args.save_iterations,
-        args.checkpoint_iterations,
-        args.start_checkpoint,
-        args.debug_from,
+        dataset=lp.extract(args),
+        opt=op.extract(args),
+        pipe=pp.extract(args),
+        testing_iterations=args.test_iterations,
+        saving_iterations=args.save_iterations,
+        checkpoint_iterations=args.checkpoint_iterations,
+        checkpoint=args.start_checkpoint,
+        debug_from=args.debug_from,
     )
 
     # All done

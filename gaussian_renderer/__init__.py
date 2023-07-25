@@ -7,7 +7,7 @@
 # under the terms of the LICENSE.md file.
 #
 # For inquiries contact  george.drettakis@inria.fr
-#
+#1088x640
 
 import torch
 import math

@@ -33,6 +33,16 @@ from utils.graphics_utils import focal2fov, fov2focal, getWorld2View2
 from utils.sh_utils import SH2RGB
 
 
+def load_random_pcd(path, ply_path):
+    xyz = np.loadtxt(path)
+    shs = np.random.random((xyz.shape[0], 3)) / 255.0
+    pcd = BasicPointCloud(
+        points=xyz, colors=SH2RGB(shs), normals=np.zeros((xyz.shape[0], 3))
+    )
+    storePly(ply_path, xyz, SH2RGB(shs) * 255)
+    return pcd
+
+
 class CameraInfo(NamedTuple):
     uid: int
     R: np.array
@@ -78,7 +88,9 @@ def getNerfppNorm(cam_info):
     return {"translate": translate, "radius": radius}
 
 
-def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
+def readColmapCameras(
+    cam_extrinsics, cam_intrinsics, images_folder, load_width, load_height
+):
     cam_infos = []
     for idx, key in enumerate(cam_extrinsics):
         sys.stdout.write("\r")
@@ -88,8 +100,8 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
 
         extr = cam_extrinsics[key]
         intr = cam_intrinsics[extr.camera_id]
-        height = intr.height
-        width = intr.width
+        original_height = intr.height
+        original_width = intr.width
 
         uid = intr.id
         R = np.transpose(qvec2rotmat(extr.qvec))
@@ -97,13 +109,13 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
 
         if intr.model == "SIMPLE_PINHOLE":
             focal_length_x = intr.params[0]
-            FovY = focal2fov(focal_length_x, height)
-            FovX = focal2fov(focal_length_x, width)
+            FovY = focal2fov(focal_length_x, original_height)
+            FovX = focal2fov(focal_length_x, original_width)
         elif intr.model == "PINHOLE":
             focal_length_x = intr.params[0]
             focal_length_y = intr.params[1]
-            FovY = focal2fov(focal_length_y, height)
-            FovX = focal2fov(focal_length_x, width)
+            FovY = focal2fov(focal_length_y, original_height)
+            FovX = focal2fov(focal_length_x, original_width)
         else:
             assert (
                 False
@@ -112,6 +124,13 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
         image_path = os.path.join(images_folder, os.path.basename(extr.name))
         image_name = os.path.basename(image_path).split(".")[0]
         image = Image.open(image_path)
+        if load_width > 0 and load_height > 0:
+            image = image.resize((load_width, load_height), Image.LANCZOS)
+            print(f"Resizing image {image_path} to {load_width}x{load_height}")
+            FovY = FovY * load_height / original_height
+            FovX = FovX * load_width / original_width
+            original_height = load_height
+            original_width = load_width
 
         cam_info = CameraInfo(
             uid=uid,
@@ -122,8 +141,8 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
             image=image,
             image_path=image_path,
             image_name=image_name,
-            width=width,
-            height=height,
+            width=original_width,
+            height=original_height,
         )
         cam_infos.append(cam_info)
     sys.stdout.write("\n")
@@ -165,7 +184,9 @@ def storePly(path, xyz, rgb):
     ply_data.write(path)
 
 
-def readColmapSceneInfo(path, images, eval, llffhold=8):
+def readColmapSceneInfo(
+    path, images, eval, load_width, load_height, random_pcd_path, llffhold=8
+):
     try:
         cameras_extrinsic_file = os.path.join(path, "sparse/0", "images.bin")
         cameras_intrinsic_file = os.path.join(path, "sparse/0", "cameras.bin")
@@ -182,6 +203,8 @@ def readColmapSceneInfo(path, images, eval, llffhold=8):
         cam_extrinsics=cam_extrinsics,
         cam_intrinsics=cam_intrinsics,
         images_folder=os.path.join(path, reading_dir),
+        load_width=load_width,
+        load_height=load_height,
     )
     cam_infos = sorted(cam_infos_unsorted.copy(), key=lambda x: x.image_name)
 
@@ -194,22 +217,30 @@ def readColmapSceneInfo(path, images, eval, llffhold=8):
 
     nerf_normalization = getNerfppNorm(train_cam_infos)
 
-    ply_path = os.path.join(path, "sparse/0/points3D.ply")
-    bin_path = os.path.join(path, "sparse/0/points3D.bin")
-    txt_path = os.path.join(path, "sparse/0/points3D.txt")
-    if not os.path.exists(ply_path):
-        print(
-            "Converting point3d.bin to .ply, will happen only the first time you open the scene."
-        )
+    if random_pcd_path != "":
+        # ply_path = os.path.join(path, "points3d.ply")
+        # bin_path = os.path.join(path, "sparse/0/points3D.bin")
+        # xyz, rgb, _ = read_points3D_binary(bin_path)
+        # storePly(ply_path, xyz, rgb)
+        ply_path = os.path.join(path, "random_init_points3d.ply")
+        pcd = load_random_pcd(random_pcd_path, ply_path)
+    else:
+        ply_path = os.path.join(path, "sparse/0/points3D.ply")
+        bin_path = os.path.join(path, "sparse/0/points3D.bin")
+        txt_path = os.path.join(path, "sparse/0/points3D.txt")
+        if not os.path.exists(ply_path):
+            print(
+                "Converting point3d.bin to .ply, will happen only the first time you open the scene."
+            )
+            try:
+                xyz, rgb, _ = read_points3D_binary(bin_path)
+            except:
+                xyz, rgb, _ = read_points3D_text(txt_path)
+            storePly(ply_path, xyz, rgb)
         try:
-            xyz, rgb, _ = read_points3D_binary(bin_path)
+            pcd = fetchPly(ply_path)
         except:
-            xyz, rgb, _ = read_points3D_text(txt_path)
-        storePly(ply_path, xyz, rgb)
-    try:
-        pcd = fetchPly(ply_path)
-    except:
-        pcd = None
+            pcd = None
 
     scene_info = SceneInfo(
         point_cloud=pcd,
@@ -221,7 +252,9 @@ def readColmapSceneInfo(path, images, eval, llffhold=8):
     return scene_info
 
 
-def readCamerasFromTransforms(path, transformsfile, white_background, extension=".png"):
+def readCamerasFromTransforms(
+    path, transformsfile, white_background, load_width, load_height, extension=".png"
+):
     cam_infos = []
 
     with open(os.path.join(path, transformsfile)) as json_file:
@@ -240,7 +273,6 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
             image_path = os.path.join(path, cam_name)
             image_name = Path(cam_name).stem
             image = Image.open(image_path)
-
             im_data = np.array(image.convert("RGBA"))
 
             bg = np.array([1, 1, 1]) if white_background else np.array([0, 0, 0])
@@ -254,6 +286,14 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
             fovy = focal2fov(fov2focal(fovx, image.size[0]), image.size[1])
             FovY = fovy
             FovX = fovx
+
+            if load_width > 0 and load_height > 0:
+                original_height = image.size[1]
+                original_width = image.size[0]
+                image = image.resize((load_width, load_height), Image.LANCZOS)
+                print(f"Resizing image {image_path} to {load_width}x{load_height}")
+                FovY = FovY * load_height / original_height
+                FovX = FovX * load_width / original_width
 
             cam_infos.append(
                 CameraInfo(
@@ -273,14 +313,32 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
     return cam_infos
 
 
-def readNerfSyntheticInfo(path, white_background, eval, extension=".png"):
+def readNerfSyntheticInfo(
+    path,
+    white_background,
+    eval,
+    load_width,
+    load_height,
+    random_pcd_path,
+    extension=".png",
+):
     print("Reading Training Transforms")
     train_cam_infos = readCamerasFromTransforms(
-        path, "transforms_train.json", white_background, extension
+        path=path,
+        transformsfile="transforms_train.json",
+        white_background=white_background,
+        load_width=load_width,
+        load_height=load_height,
+        extension=extension,
     )
     print("Reading Test Transforms")
     test_cam_infos = readCamerasFromTransforms(
-        path, "transforms_test.json", white_background, extension
+        path=path,
+        transformsfile="transforms_test.json",
+        white_background=white_background,
+        load_width=load_width,
+        load_height=load_height,
+        extension=extension,
     )
 
     if not eval:
@@ -289,24 +347,28 @@ def readNerfSyntheticInfo(path, white_background, eval, extension=".png"):
 
     nerf_normalization = getNerfppNorm(train_cam_infos)
 
-    ply_path = os.path.join(path, "points3d.ply")
-    if not os.path.exists(ply_path):
-        # Since this data set has no colmap data, we start with random points
-        num_pts = 100_000
-        print(f"Generating random point cloud ({num_pts})...")
+    if random_pcd_path != "":
+        ply_path = os.path.join(path, "random_init_points3d.ply")
+        pcd = load_random_pcd(random_pcd_path, ply_path)
+    else:
+        ply_path = os.path.join(path, "points3d.ply")
+        if not os.path.exists(ply_path):
+            # Since this data set has no colmap data, we start with random points
+            num_pts = 100_000
+            print(f"Generating random point cloud ({num_pts})...")
 
-        # We create random points inside the bounds of the synthetic Blender scenes
-        xyz = np.random.random((num_pts, 3)) * 2.6 - 1.3
-        shs = np.random.random((num_pts, 3)) / 255.0
-        pcd = BasicPointCloud(
-            points=xyz, colors=SH2RGB(shs), normals=np.zeros((num_pts, 3))
-        )
+            # We create random points inside the bounds of the synthetic Blender scenes
+            xyz = np.random.random((num_pts, 3)) * 2.6 - 1.3
+            shs = np.random.random((num_pts, 3)) / 255.0
+            pcd = BasicPointCloud(
+                points=xyz, colors=SH2RGB(shs), normals=np.zeros((num_pts, 3))
+            )
 
-        storePly(ply_path, xyz, SH2RGB(shs) * 255)
-    try:
-        pcd = fetchPly(ply_path)
-    except:
-        pcd = None
+            storePly(ply_path, xyz, SH2RGB(shs) * 255)
+        try:
+            pcd = fetchPly(ply_path)
+        except:
+            pcd = None
 
     scene_info = SceneInfo(
         point_cloud=pcd,
