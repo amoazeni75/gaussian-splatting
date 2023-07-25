@@ -1,14 +1,16 @@
 
-# lego
+CUDA_VISIBLE_DEVICES=1
+
+# lego: A5
 python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/lego/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/lego/random_sphere_points3d.txt --model_path output/lego --eval --white_background --width_load 800 --height_load 800
 
-# chair
+# chair: A5
 python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/chair/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/chair/random_sphere_points3d.txt --model_path output/chair --eval --white_background --width_load 800 --height_load 800
 
-# drums
-python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/drums/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/drums/random_sphere_points3d.txt --model_path output/drums --eval --white_background --width_load 800 --height_load 800
+# drums: A5
+ python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/drums/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/drums/random_sphere_points3d.txt --model_path output/drums --eval --white_background --width_load 800 --height_load 800
 
-# ficus
+# ficus: A5
 python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/ficus/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/ficus/random_sphere_points3d.txt --model_path output/ficus --eval --white_background --width_load 800 --height_load 800
 
 # hotdog

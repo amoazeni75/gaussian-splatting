@@ -323,7 +323,9 @@ if __name__ == "__main__":
         "--save_iterations", nargs="+", type=int, default=[7_000, 30_000]
     )
     parser.add_argument("--quiet", action="store_true")
-    parser.add_argument("--checkpoint_iterations", nargs="+", type=int, default=[])
+    parser.add_argument(
+        "--checkpoint_iterations", nargs="+", type=int, default=[7_000, 30_000]
+    )
     parser.add_argument("--start_checkpoint", type=str, default=None)
     args = parser.parse_args(sys.argv[1:])
     args.save_iterations.append(args.iterations)
@@ -334,7 +336,7 @@ if __name__ == "__main__":
     safe_state(args.quiet)
 
     # Start GUI server, configure and run training
-    network_gui.init(args.ip, args.port)
+    # network_gui.init(args.ip, args.port)
     torch.autograd.set_detect_anomaly(args.detect_anomaly)
     training(
         dataset=lp.extract(args),
