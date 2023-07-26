@@ -4,12 +4,13 @@ import os
 import numpy as np
 import open3d as o3d
 
-dataset = "nerf_synthetic_colmap"
+# dataset = "nerf_synthetic_colmap"
+dataset = "tanksandtemples"
 
 if dataset == "nerf_synthetic_colmap":
     root = "/NAS/samp8/datasets/nerf_synthetic_colmap/"
 else:
-    root = "/NAS/samp8/datasets/TanksAndTemple_colmap"
+    root = "/NAS/samp8/datasets/TanksAndTemple_colmap/"
 
 # list all directories in root directory
 dirs = os.listdir(root)
@@ -61,13 +62,13 @@ for dir in dirs:
 
     # compute center and scale
     center = np.mean(points, axis=0)
-    
+
     if dataset == "nerf_synthetic_colmap":
         print(np.max(points, axis=0) - np.min(points, axis=0))
         scale = np.ones(3) * 0.7
     else:
         scale = np.max(points, axis=0) - np.min(points, axis=0)
-        scale = np.max(scale) * np.ones(3) * 0.08
+        scale = np.max(scale) * np.ones(3) * 0.04
 
     # generate sphere point cloud
     sphere_points = sphere_pc(center, 30_000, scale)

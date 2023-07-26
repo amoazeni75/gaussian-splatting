@@ -218,10 +218,11 @@ def readColmapSceneInfo(
     nerf_normalization = getNerfppNorm(train_cam_infos)
 
     if random_pcd_path != "":
-        # ply_path = os.path.join(path, "points3d.ply")
-        # bin_path = os.path.join(path, "sparse/0/points3D.bin")
-        # xyz, rgb, _ = read_points3D_binary(bin_path)
-        # storePly(ply_path, xyz, rgb)
+        ply_path = os.path.join(path, "points3d.ply")
+        bin_path = os.path.join(path, "sparse/0/points3D.bin")
+        xyz, rgb, _ = read_points3D_binary(bin_path)
+        storePly(ply_path, xyz, rgb)
+        exit(0)
         ply_path = os.path.join(path, "random_init_points3d.ply")
         pcd = load_random_pcd(random_pcd_path, ply_path)
     else:
