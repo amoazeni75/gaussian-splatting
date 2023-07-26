@@ -3,53 +3,53 @@ CUDA_VISIBLE_DEVICES=1
 
 cd ..
 
-# lego: A5
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/lego/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/lego/
+# # lego: A5
+# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/lego/
+# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/lego/
 
-echo "lego done --------------------------------------------------------------------------------------------"
+# echo "lego done --------------------------------------------------------------------------------------------"
 
-# chair: A5
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/chair/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/chair/
+# # chair: A5
+# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/chair/
+# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/chair/
 
-echo "chair done --------------------------------------------------------------------------------------------"
+# echo "chair done --------------------------------------------------------------------------------------------"
 
-# drums: A5
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/drums/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/drums/
+# # drums: A5
+# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/drums/
+# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/drums/
 
-echo "drums done --------------------------------------------------------------------------------------------"
+# echo "drums done --------------------------------------------------------------------------------------------"
 
-# ficus: A5
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/ficus/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/ficus/
+# # ficus: A5
+# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/ficus/
+# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/ficus/
 
-echo "ficus done --------------------------------------------------------------------------------------------"
+# echo "ficus done --------------------------------------------------------------------------------------------"
 
-# hotdog
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/hotdog/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/hotdog/
+# # hotdog
+# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/hotdog/
+# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/hotdog/
 
-echo "hotdog done --------------------------------------------------------------------------------------------"
+# echo "hotdog done --------------------------------------------------------------------------------------------"
 
-# materials
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/materials/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/materials/
+# # materials
+# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/materials/
+# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/materials/
 
-echo "materials done --------------------------------------------------------------------------------------------"
+# echo "materials done --------------------------------------------------------------------------------------------"
 
-# ship
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/ship/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/ship/
+# # ship
+# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/ship/
+# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/ship/
 
-echo "ship done --------------------------------------------------------------------------------------------"
+# echo "ship done --------------------------------------------------------------------------------------------"
 
-# mic
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/mic/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/mic/
+# # mic
+# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/mic/
+# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/mic/
 
-echo "mic done --------------------------------------------------------------------------------------------"
+# echo "mic done --------------------------------------------------------------------------------------------"
 
 # Family
 python render.py -m /NAS/samp8/projects/gaussian-splatting/output/Family/
