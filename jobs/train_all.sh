@@ -41,24 +41,24 @@ cd ..
 # echo "mic done --------------------------------------------------------------------------------------------"
 
 # Family
-CUDA_VISIBLE_DEVICES=1 python train.py -s /NAS/samp8/datasets/TanksAndTemple_colmap/Family/  --random_pcd_path /NAS/samp8/datasets/TanksAndTemple_colmap/Family/random_sphere_points3d.txt --model_path output/Family --eval --white_background &
+CUDA_VISIBLE_DEVICES=1 python train.py -s /NAS/samp8/datasets/TanksAndTemple_colmap/Family/  --random_pcd_path /NAS/samp8/datasets/TanksAndTemple_colmap/Family/random_sphere_points3d.txt --model_path output/Family --eval --white_background 
 
 echo "Family done --------------------------------------------------------------------------------------------"
 
 # Barn
-CUDA_VISIBLE_DEVICES=1 python train.py -s /NAS/samp8/datasets/TanksAndTemple_colmap/Barn/  --random_pcd_path /NAS/samp8/datasets/TanksAndTemple_colmap/Barn/random_sphere_points3d.txt --model_path output/Barn --eval --white_background &
+CUDA_VISIBLE_DEVICES=1 python train.py -s /NAS/samp8/datasets/TanksAndTemple_colmap/Barn/  --random_pcd_path /NAS/samp8/datasets/TanksAndTemple_colmap/Barn/random_sphere_points3d.txt --model_path output/Barn --eval --white_background 
 
 echo "Barn done --------------------------------------------------------------------------------------------"
 
-# Catepillar
-CUDA_VISIBLE_DEVICES=1 python train.py -s /NAS/samp8/datasets/TanksAndTemple_colmap/Catepillar/  --random_pcd_path /NAS/samp8/datasets/TanksAndTemple_colmap/Catepillar/random_sphere_points3d.txt --model_path output/Catepillar --eval --white_background &
-echo "Catepillar done --------------------------------------------------------------------------------------------"
+# Caterpillar
+CUDA_VISIBLE_DEVICES=1 python train.py -s /NAS/samp8/datasets/TanksAndTemple_colmap/Caterpillar/  --random_pcd_path /NAS/samp8/datasets/TanksAndTemple_colmap/Caterpillar/random_sphere_points3d.txt --model_path output/Caterpillar --eval --white_background 
+echo "Caterpillar done --------------------------------------------------------------------------------------------"
 
 # Ignatius
-CUDA_VISIBLE_DEVICES=0 python train.py -s /NAS/samp8/datasets/TanksAndTemple_colmap/Ignatius/  --random_pcd_path /NAS/samp8/datasets/TanksAndTemple_colmap/Ignatius/random_sphere_points3d.txt --model_path output/Ignatius --eval --white_background &
+CUDA_VISIBLE_DEVICES=0 python train.py -s /NAS/samp8/datasets/TanksAndTemple_colmap/Ignatius/  --random_pcd_path /NAS/samp8/datasets/TanksAndTemple_colmap/Ignatius/random_sphere_points3d.txt --model_path output/Ignatius --eval --white_background 
 
 echo "Ignatius done --------------------------------------------------------------------------------------------"
 
 # Truck
-CUDA_VISIBLE_DEVICES=0 python train.py -s /NAS/samp8/datasets/TanksAndTemple_colmap/Truck/  --random_pcd_path /NAS/samp8/datasets/TanksAndTemple_colmap/Truck/random_sphere_points3d.txt --model_path output/Truck --eval --white_background &
+CUDA_VISIBLE_DEVICES=0 python train.py -s /NAS/samp8/datasets/TanksAndTemple_colmap/Truck/  --random_pcd_path /NAS/samp8/datasets/TanksAndTemple_colmap/Truck/random_sphere_points3d.txt --model_path output/Truck --eval --white_background 
 

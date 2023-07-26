@@ -63,11 +63,11 @@ python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/Barn/
 
 echo "Barn done --------------------------------------------------------------------------------------------"
 
-# Catepillar
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/Catepillar/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/Catepillar/
+# Caterpillar
+python render.py -m /NAS/samp8/projects/gaussian-splatting/output/Caterpillar/
+python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/Caterpillar/
 
-echo "Catepillar done --------------------------------------------------------------------------------------------"
+echo "Caterpillar done --------------------------------------------------------------------------------------------"
 
 # Ignatius
 python render.py -m /NAS/samp8/projects/gaussian-splatting/output/Ignatius/
