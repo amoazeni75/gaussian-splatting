@@ -1,7 +1,12 @@
 cd ..
+/NAS/samp8/miniconda3/bin/conda activate gaussian_splatting
 
 # # lego: A5
 # python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/lego/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/lego/random_sphere_points3d.txt --model_path output/lego --eval --white_background --width_load 800 --height_load 800
+
+# fixing the points
+python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/lego/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/lego/random_sphere_points3d.txt --model_path output/lego_debug_points --eval --white_background --width_load 800 --height_load 800 --percent_dense 0.0 --densification_interval 0 --densify_from_iter -1 --densify_until_iter -1
+
 
 # echo "lego done --------------------------------------------------------------------------------------------"
 

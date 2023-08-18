@@ -225,6 +225,7 @@ def readColmapSceneInfo(
         # exit(0)
         ply_path = os.path.join(path, "random_init_points3d.ply")
         pcd = load_random_pcd(random_pcd_path, ply_path)
+        print("Loaded random sphere point cloud")
     else:
         ply_path = os.path.join(path, "sparse/0/points3D.ply")
         bin_path = os.path.join(path, "sparse/0/points3D.bin")
