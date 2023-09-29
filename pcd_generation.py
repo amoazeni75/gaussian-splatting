@@ -4,17 +4,32 @@ import os
 import numpy as np
 import open3d as o3d
 
-dataset = "nerf_synthetic_colmap"
-# dataset = "tanksandtemples"
 
+def get_args():
+    import argparse
 
-if dataset == "nerf_synthetic_colmap":
-    root = "/NAS/samp8/datasets/nerf_synthetic_colmap/"
-else:
-    root = "/NAS/samp8/datasets/TanksAndTemple_colmap/"
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--dataset_type",
+        type=str,
+        default="nerf_synthetic_colmap",
+        help="nerf_synthetic_colmap|tanksandtemples",
+    )
+    parser.add_argument(
+        "--root",
+        type=str,
+        default="/NAS/samp8/datasets/nerf_synthetic_colmap/lego/",
+        help="/NAS/samp8/datasets/nerf_synthetic_colmap/lego/ | /NAS/samp8/datasets/TanksAndTemple_colmap/Family/",
+    )
+    parser.add_argument(
+        "--pcd_size",
+        type=int,
+        default=30_000,
+        help="Number of points in the point cloud",
+    )
 
-# list all directories in root directory
-dirs = os.listdir(root)
+    args = parser.parse_args()
+    return args
 
 
 def load_point_cloud(filename):
@@ -51,58 +66,58 @@ def sphere_pc(center, num_pts, scale):
     return points
 
 
-# loop through all directories
-for dir in dirs:
-    print("*" * 80)
-    print(f"Processing {dir}")
-    if dataset == "nerf_synthetic_colmap":
-        pcd_file = os.path.join(root, dir, "colmap_train/dense/fused.ply")
-    else:
-        pcd_file = os.path.join(root, dir, "points3d.ply")
+args = get_args()
+print("*" * 80)
+print(f"Processing {args.root}")
+if args.dataset_type == "nerf_synthetic_colmap":
+    pcd_file = os.path.join(args.root, "colmap_train/dense/fused.ply")
+else:
+    pcd_file = os.path.join(args.root, "points3d.ply")
 
-    # load point cloud
-    points = load_point_cloud(pcd_file)
+# load point cloud
+original_points = load_point_cloud(pcd_file)
 
-    # compute center and scale
-    center = np.mean(points, axis=0)
+# compute center and scale
+center = np.mean(original_points, axis=0)
 
-    if dataset == "nerf_synthetic_colmap":
-        print(np.max(points, axis=0) - np.min(points, axis=0))
-        scale = np.ones(3) * 0.7
-    else:
-        scale = np.max(points, axis=0) - np.min(points, axis=0)
-        scale = np.max(scale) * np.ones(3) * 0.04
+if args.dataset_type == "nerf_synthetic_colmap":
+    print(np.max(original_points, axis=0) - np.min(original_points, axis=0))
+    scale = np.ones(3) * 0.7
+else:
+    scale = np.max(original_points, axis=0) - np.min(original_points, axis=0)
+    scale = np.max(scale) * np.ones(3) * 0.04
 
-    # generate sphere point cloud
-    sphere_points = sphere_pc(center, 30_000, scale)
+# generate sphere point cloud
+sphere_points = sphere_pc(center, args.pcd_size, scale)
 
-    # save sphere point cloud
-    save_point_cloud(os.path.join(root, dir, "sphere_points3d.txt"), sphere_points)
-    save_point_cloud_ply(os.path.join(root, dir, "shere_points3d.ply"), sphere_points)
+# save sphere point cloud
+save_point_cloud(
+    os.path.join(args.root, f"sphere_points3d_{args.pcd_size}.txt"), sphere_points
+)
+save_point_cloud_ply(
+    os.path.join(args.root, f"shere_points3d_{args.pcd_size}.ply"), sphere_points
+)
 
-    print(f"Generated sphere point cloud for {dir}")
-    print(f"Center: {center}")
-    print(f"Scale: {scale}")
-    print(f"Number of points: {sphere_points.shape[0]}")
+print(f"Generated sphere point cloud for {args.root}")
+print(f"Center: {center}")
+print(f"Scale: {scale}")
+print(f"Number of points: {sphere_points.shape[0]}")
 
-    # randomly sample points from SFM point cloud
-    if dataset == "nerf_synthetic_colmap":
-        pcd_file = os.path.join(root, dir, "colmap_train/dense/fused.ply")
-    else:
-        pcd_file = os.path.join(root, dir, "points3d.ply")
 
-    points = load_point_cloud(pcd_file)
+# randomly sample points
+num_points = min(args.pcd_size, original_points.shape[0])
+idx = np.random.choice(original_points.shape[0], num_points, replace=False)
+points = original_points[idx]
 
-    # randomly sample points
-    num_points = min(30_000, points.shape[0])
-    idx = np.random.choice(points.shape[0], num_points, replace=False)
-    points = points[idx]
+# save point cloud
+save_point_cloud(
+    os.path.join(args.root, f"random_{args.pcd_size}_points3d.txt"), points
+)
+save_point_cloud_ply(
+    os.path.join(args.root, f"random_{args.pcd_size}_points3d .ply"), points
+)
 
-    # save point cloud
-    save_point_cloud(os.path.join(root, dir, "random_30k_points3d.txt"), points)
-    save_point_cloud_ply(os.path.join(root, dir, "random_30k_points3d.ply"), points)
+print(f"Generated random point cloud for {dir}")
+print(f"Number of points: {points.shape[0]}")
 
-    print(f"Generated random point cloud for {dir}")
-    print(f"Number of points: {points.shape[0]}")
-
-    print("*" * 80)
+print("*" * 80)

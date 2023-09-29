@@ -1,81 +1,69 @@
-
-CUDA_VISIBLE_DEVICES=1
-
 cd ..
+/home/samp8/miniconda3/bin/conda activate gaussian_splatting
 
-# # lego: A5
-# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/lego/
-# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/lego/
+export CUDA_VISIBLE_DEVICES=1
 
-# echo "lego done --------------------------------------------------------------------------------------------"
+# lego: A5
+python render.py -m output/lego_around_30K_pcd_from_SFM/
+python metrics.py -m output/lego_around_30K_pcd_from_SFM/
+echo "lego done --------------------------------------------------------------------------------------------"
 
-# # chair: A5
-# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/chair/
-# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/chair/
+# chair: A5
+python render.py -m output/chair_around_30K_pcd_from_SFM/
+python metrics.py -m output/chair_around_30K_pcd_from_SFM/
+echo "chair done --------------------------------------------------------------------------------------------"
 
-# echo "chair done --------------------------------------------------------------------------------------------"
+# drums: A5
+python render.py -m output/drums_around_30K_pcd_from_SFM/
+python metrics.py -m output/drums_around_30K_pcd_from_SFM/
+echo "drums done --------------------------------------------------------------------------------------------"
 
-# # drums: A5
-# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/drums/
-# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/drums/
+# ficus: A5
+python render.py -m output/ficus_around_30K_pcd_from_SFM/
+python metrics.py -m output/ficus_around_30K_pcd_from_SFM/
+echo "ficus done --------------------------------------------------------------------------------------------"
 
-# echo "drums done --------------------------------------------------------------------------------------------"
+# hotdog
+python render.py -m output/hotdog_around_30K_pcd_from_SFM/
+python metrics.py -m output/hotdog_around_30K_pcd_from_SFM/
+echo "hotdog done --------------------------------------------------------------------------------------------"
 
-# # ficus: A5
-# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/ficus/
-# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/ficus/
+# materials
+python render.py -m output/materials_around_30K_pcd_from_SFM/
+python metrics.py -m output/materials_around_30K_pcd_from_SFM/
+echo "materials done --------------------------------------------------------------------------------------------"
 
-# echo "ficus done --------------------------------------------------------------------------------------------"
+# ship
+python render.py -m output/ship_around_30K_pcd_from_SFM/
+python metrics.py -m output/ship_around_30K_pcd_from_SFM/
+echo "ship done --------------------------------------------------------------------------------------------"
 
-# # hotdog
-# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/hotdog/
-# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/hotdog/
-
-# echo "hotdog done --------------------------------------------------------------------------------------------"
-
-# # materials
-# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/materials/
-# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/materials/
-
-# echo "materials done --------------------------------------------------------------------------------------------"
-
-# # ship
-# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/ship/
-# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/ship/
-
-# echo "ship done --------------------------------------------------------------------------------------------"
-
-# # mic
-# python render.py -m /NAS/samp8/projects/gaussian-splatting/output/mic/
-# python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/mic/
-
-# echo "mic done --------------------------------------------------------------------------------------------"
+# mic
+python render.py -m output/mic_around_30K_pcd_from_SFM/
+python metrics.py -m output/mic_around_30K_pcd_from_SFM/
+echo "mic done --------------------------------------------------------------------------------------------"
 
 # Family
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/Family/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/Family/
-
+python render.py -m output/Family_around_30K_pcd_from_SFM/
+python metrics.py -m output/Family_around_30K_pcd_from_SFM/
 echo "Family done --------------------------------------------------------------------------------------------"
 
 # Barn
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/Barn/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/Barn/
-
+python render.py -m output/Barn_around_30K_pcd_from_SFM/
+python metrics.py -m output/Barn_around_30K_pcd_from_SFM/
 echo "Barn done --------------------------------------------------------------------------------------------"
 
 # Caterpillar
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/Caterpillar/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/Caterpillar/
-
+python render.py -m output/Caterpillar_around_30K_pcd_from_SFM/
+python metrics.py -m output/Caterpillar_around_30K_pcd_from_SFM/
 echo "Caterpillar done --------------------------------------------------------------------------------------------"
 
 # Ignatius
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/Ignatius/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/Ignatius/
-
+python render.py -m output/Ignatius_around_30K_pcd_from_SFM/
+python metrics.py -m output/Ignatius_around_30K_pcd_from_SFM/
 echo "Ignatius done --------------------------------------------------------------------------------------------"
 
 # Truck
-python render.py -m /NAS/samp8/projects/gaussian-splatting/output/Truck/
-python metrics.py -m /NAS/samp8/projects/gaussian-splatting/output/Truck/
-
+python render.py -m output/Truck_around_30K_pcd_from_SFM/
+python metrics.py -m output/Truck_around_30K_pcd_from_SFM/
+echo "Truck done --------------------------------------------------------------------------------------------"
