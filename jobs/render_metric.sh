@@ -1,5 +1,7 @@
 cd ..
-/home/samp8/miniconda3/bin/conda activate gaussian_splatting
+# activate conda environment 
+source activate gaussian_splatting
+
 
 export CUDA_VISIBLE_DEVICES=1
 
