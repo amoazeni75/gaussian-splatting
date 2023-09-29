@@ -178,6 +178,7 @@ def training(
                         0.005,
                         scene.cameras_extent,
                         size_threshold,
+                        max_points=opt.pcd_size * opt.max_densify + opt.pcd_size,
                     )
 
                 if iteration % opt.opacity_reset_interval == 0 or (

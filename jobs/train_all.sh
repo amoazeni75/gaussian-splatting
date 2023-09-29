@@ -7,6 +7,9 @@ cd ..
 # fixing the points
 python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/lego/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/lego/random_sphere_points3d.txt --model_path output/lego_debug_points --eval --white_background --width_load 800 --height_load 800 --percent_dense 0.0 --densification_interval 0 --densify_from_iter -1 --densify_until_iter -1
 
+# allowing with a threshold of 0.1
+python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/lego/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/lego/random_30k_points3d.txt --model_path output/lego_SFM_30k --eval --white_background --width_load 800 --height_load 800
+
 
 # echo "lego done --------------------------------------------------------------------------------------------"
 

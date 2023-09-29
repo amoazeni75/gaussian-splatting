@@ -4,8 +4,9 @@ import os
 import numpy as np
 import open3d as o3d
 
-# dataset = "nerf_synthetic_colmap"
-dataset = "tanksandtemples"
+dataset = "nerf_synthetic_colmap"
+# dataset = "tanksandtemples"
+
 
 if dataset == "nerf_synthetic_colmap":
     root = "/NAS/samp8/datasets/nerf_synthetic_colmap/"
@@ -52,8 +53,10 @@ def sphere_pc(center, num_pts, scale):
 
 # loop through all directories
 for dir in dirs:
+    print("*" * 80)
+    print(f"Processing {dir}")
     if dataset == "nerf_synthetic_colmap":
-        pcd_file = os.path.join(root, dir, "colmap_results/dense/fused.ply")
+        pcd_file = os.path.join(root, dir, "colmap_train/dense/fused.ply")
     else:
         pcd_file = os.path.join(root, dir, "points3d.ply")
 
@@ -74,15 +77,32 @@ for dir in dirs:
     sphere_points = sphere_pc(center, 30_000, scale)
 
     # save sphere point cloud
-    save_point_cloud(
-        os.path.join(root, dir, "random_sphere_points3d.txt"), sphere_points
-    )
-    save_point_cloud_ply(
-        os.path.join(root, dir, "random_sphere_points3d.ply"), sphere_points
-    )
+    save_point_cloud(os.path.join(root, dir, "sphere_points3d.txt"), sphere_points)
+    save_point_cloud_ply(os.path.join(root, dir, "shere_points3d.ply"), sphere_points)
 
     print(f"Generated sphere point cloud for {dir}")
     print(f"Center: {center}")
     print(f"Scale: {scale}")
     print(f"Number of points: {sphere_points.shape[0]}")
+
+    # randomly sample points from SFM point cloud
+    if dataset == "nerf_synthetic_colmap":
+        pcd_file = os.path.join(root, dir, "colmap_train/dense/fused.ply")
+    else:
+        pcd_file = os.path.join(root, dir, "points3d.ply")
+
+    points = load_point_cloud(pcd_file)
+
+    # randomly sample points
+    num_points = min(30_000, points.shape[0])
+    idx = np.random.choice(points.shape[0], num_points, replace=False)
+    points = points[idx]
+
+    # save point cloud
+    save_point_cloud(os.path.join(root, dir, "random_30k_points3d.txt"), points)
+    save_point_cloud_ply(os.path.join(root, dir, "random_30k_points3d.ply"), points)
+
+    print(f"Generated random point cloud for {dir}")
+    print(f"Number of points: {points.shape[0]}")
+
     print("*" * 80)
