@@ -155,6 +155,10 @@ def training(
             if iteration in saving_iterations:
                 print("\n[ITER {}] Saving Gaussians".format(iteration))
                 scene.save(iteration)
+            
+            if iteration % args.pcd_save_interval == 0:
+                print("\n[ITER {}] Saving PCD".format(iteration))
+                scene.save_pcd(iteration)
 
             # Densification
             if iteration < opt.densify_until_iter:
@@ -323,6 +327,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--save_iterations", nargs="+", type=int, default=[7_000, 30_000]
     )
+    parser.add_argument("--pcd_save_interval", type=int, default=1000)
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument(
         "--checkpoint_iterations", nargs="+", type=int, default=[7_000, 30_000]

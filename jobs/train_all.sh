@@ -15,6 +15,10 @@ python pcd_generation.py --dataset_type nerf_synthetic_colmap --root /NAS/samp8/
 # allowing densify and pruning with a threshold of 0.1
 python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/lego/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/lego/random_30000_points3d.txt --model_path output/lego_around_30K_pcd_from_SFM --eval --white_background --width_load 800 --height_load 800 --pcd_size 30000 --max_densify 0.1
 
+# train with 1k points + fixed pcd size + from sphere
+# python pcd_generation.py --dataset_type nerf_synthetic_colmap --root /NAS/samp8/datasets/nerf_synthetic_colmap/lego/ --pcd_size 1000
+# python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/lego/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/lego/sphere_points3d_1000.txt --model_path output/lego_fix_1K_pcd_from_sphere_lr_1e-3_1e-5 --eval --white_background --width_load 800 --height_load 800 --percent_dense 0.0 --densification_interval 0 --densify_from_iter -1 --densify_until_iter -1 --pcd_size 1000 --max_densify 0.0 --pcd_save_interval 1 --position_lr_init 1e-3 --position_lr_final 1e-5 
+
 echo "lego done --------------------------------------------------------------------------------------------"
 
 # chair: A5
