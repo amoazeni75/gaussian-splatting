@@ -155,10 +155,10 @@ def training(
             if iteration in saving_iterations:
                 print("\n[ITER {}] Saving Gaussians".format(iteration))
                 scene.save(iteration)
-            
-            if iteration % args.pcd_save_interval == 0:
-                print("\n[ITER {}] Saving PCD".format(iteration))
-                scene.save_pcd(iteration)
+
+            # if iteration % args.pcd_save_interval == 0:
+            #     print("\n[ITER {}] Saving PCD".format(iteration))
+            #     scene.save_pcd(iteration)
 
             # Densification
             if iteration < opt.densify_until_iter:
@@ -179,7 +179,7 @@ def training(
                     )
                     gaussians.densify_and_prune(
                         opt.densify_grad_threshold,
-                        0.005,
+                        opt.min_opacity,
                         scene.cameras_extent,
                         size_threshold,
                         max_points=opt.pcd_size * opt.max_densify + opt.pcd_size,

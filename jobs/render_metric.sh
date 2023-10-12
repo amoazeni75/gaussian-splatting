@@ -69,3 +69,9 @@ echo "Ignatius done ------------------------------------------------------------
 python render.py -m output/Truck_around_30K_pcd_from_SFM/
 python metrics.py -m output/Truck_around_30K_pcd_from_SFM/
 echo "Truck done --------------------------------------------------------------------------------------------"
+
+
+Here is an update about the missing part of the microphone in 3DGS.
+In the first experiment set, I only played with the minimum threshold of pruning points.
+5e-3 (default value): we see the microphone wire has some missing parts (PSNR = 19.9792385)
+1e-3: Still, we see the missing parts in the wire (PSNR = 19.9495735)

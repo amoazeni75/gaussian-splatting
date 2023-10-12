@@ -97,6 +97,8 @@ python pcd_generation.py --dataset_type nerf_synthetic_colmap --root /NAS/samp8/
 
 # allowing densify and pruning with a threshold of 0.1
 python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/ship/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/ship/random_30000_points3d.txt --model_path output/ship_around_30K_pcd_from_SFM --eval --white_background --width_load 800 --height_load 800 --pcd_size 30000 --max_densify 0.1
+python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/ship/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/ship/random_30000_points3d.txt --model_path output/ship_around_30K_pcd_from_SFM_less_prune --eval --white_background --width_load 800 --height_load 800 --pcd_size 30000 --max_densify 0.1 --min_opacity 0.001
+
 echo "ship done --------------------------------------------------------------------------------------------"
 
 # mic
@@ -110,6 +112,8 @@ python pcd_generation.py --dataset_type nerf_synthetic_colmap --root /NAS/samp8/
 
 # allowing densify and pruning with a threshold of 0.1
 python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/mic/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/mic/random_30000_points3d.txt --model_path output/mic_around_30K_pcd_from_SFM --eval --white_background --width_load 800 --height_load 800 --pcd_size 30000 --max_densify 0.1
+python train.py -s /NAS/samp8/datasets/nerf_synthetic_colmap/mic/  --random_pcd_path /NAS/samp8/datasets/nerf_synthetic_colmap/mic/random_30000_points3d.txt --model_path output/mic_around_30K_pcd_from_SFM_less_prune_1e-3 --eval --white_background --width_load 800 --height_load 800 --pcd_size 30000 --max_densify 0.1 --min_opacity 0.001
+
 echo "mic done --------------------------------------------------------------------------------------------"
 
 # Family

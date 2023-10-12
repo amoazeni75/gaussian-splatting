@@ -580,6 +580,14 @@ class GaussianModel:
             prune_mask = torch.logical_or(
                 torch.logical_or(prune_mask, big_points_vs), big_points_ws
             )
+        # print how many points we are pruning
+        print(
+            "\033[91m"
+            + "Pruning {} points, because they are too small, too big, or too transparent".format(
+                prune_mask.sum()
+            )
+            + "\033[0m"
+        )
         self.prune_points(prune_mask)
 
         torch.cuda.empty_cache()
