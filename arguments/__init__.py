@@ -101,6 +101,7 @@ class OptimizationParams(ParamGroup):
         self.min_opacity = 0.005
         self.max_densify = 0.1
         self.pcd_size = 30_000
+        self.use_pruning = 1
         super().__init__(parser, "Optimization Parameters")
 
 
